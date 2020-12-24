@@ -1,0 +1,38 @@
+package com.verzakov.library.library.domain;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SelectBeforeUpdate;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
+
+@Entity
+@Table (name = "author", catalog = "library")
+@EqualsAndHashCode(of = "id")
+@Getter @Setter
+@DynamicInsert
+@DynamicUpdate
+@SelectBeforeUpdate
+public class Author {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    private Long id;
+
+    private String fio;
+
+    private Date birthday;
+
+    @Basic(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "author")
+    private List<Book> Books;
+
+    @Override
+    public String toString() {
+        return fio;
+    }
+}
